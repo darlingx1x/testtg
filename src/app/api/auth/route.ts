@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '7d' });
     // Можно установить cookie, но для простоты возвращаем токен
     return NextResponse.json({ token });
-  } catch (e: unknown) {
+  } catch {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 } 
