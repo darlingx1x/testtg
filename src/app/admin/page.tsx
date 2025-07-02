@@ -1,10 +1,10 @@
 import { getTransactions } from '@/lib/db';
-import { NextPage } from 'next';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
-export default async function AdminPage({ searchParams }: { searchParams: { secret?: string } }) {
-  if (searchParams.secret !== ADMIN_SECRET) {
+export default async function AdminPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const params = await searchParams;
+  if (params.secret !== ADMIN_SECRET) {
     return <div>Доступ запрещён</div>;
   }
   const transactions = await getTransactions();
