@@ -12,15 +12,16 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Transaction } from '@/lib/db';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function sum(transactions: any[], type: 'income' | 'expense') {
+function sum(transactions: Transaction[], type: 'income' | 'expense') {
   return transactions.filter(t => t.type === type).reduce((acc, t) => acc + t.amount, 0);
 }
 
 export default function DashboardPage() {
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filters, setFilters] = useState<{ card: string; date: string }>({ card: '', date: '' });
 
   useEffect(() => {

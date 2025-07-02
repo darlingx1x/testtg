@@ -17,7 +17,7 @@ export function parseSmsToTransaction(sms: string): Transaction | null {
   if (!match) return null;
   const [, cardType, cardNum, date, time, opType, amount, currency, merchant] = match;
   const type = opType === 'Зачисление' ? 'income' : 'expense';
-  const category = categories.find(c => merchant.toLowerCase().includes(c.key))?.value || 'Другое';
+  // const category = categories.find(c => merchant.toLowerCase().includes(c.key))?.value || 'Другое';
   return {
     id: '',
     card: cardType + cardNum,

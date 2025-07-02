@@ -20,7 +20,7 @@ export async function getTransactions(): Promise<Transaction[]> {
     const data = await fs.readFile(DB_PATH, 'utf-8');
     return JSON.parse(data);
   } catch (e) {
-    if ((e as any).code === 'ENOENT') return [];
+    if ((e as { code?: string }).code === 'ENOENT') return [];
     throw e;
   }
 }
