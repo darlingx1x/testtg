@@ -47,7 +47,7 @@
 2. На странице отображается Telegram Login Widget:
    ```html
    <script async src="https://telegram.org/js/telegram-widget.js?22"
-     data-telegram-login="darlingxloginbot"
+     data-telegram-login="darlinxloginbot"
      data-size="large"
      data-onauth="onTelegramAuth(user)"
      data-request-access="write"></script>
@@ -56,7 +56,7 @@
 4. После входа происходит редирект на `/dashboard`.
 
 ### Ссылка на бота для входа
-- [@darlingxloginbot](https://t.me/darlingxloginbot)
+- [@darlinxloginbot](https://t.me/darlinxloginbot)
 
 ## Переменные окружения
 
