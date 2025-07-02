@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from 'react';
-import Script from 'next/script';
 
 interface TelegramAuthData {
   id: number | string;
@@ -33,6 +32,20 @@ export default function Home() {
         alert('Ошибка авторизации через Telegram');
       }
     };
+    // Удаляем старый виджет, если он был
+    const old = document.getElementById('tg-login-script');
+    if (old) old.remove();
+    // Создаём новый скрипт
+    const script = document.createElement('script');
+    script.src = "https://telegram.org/js/telegram-widget.js?22";
+    script.setAttribute('data-telegram-login', 'darlingxloginbot');
+    script.setAttribute('data-size', 'large');
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+    script.setAttribute('data-request-access', 'write');
+    script.async = true;
+    script.id = 'tg-login-script';
+    const widgetDiv = document.getElementById('telegram-login-widget');
+    if (widgetDiv) widgetDiv.appendChild(script);
   }, []);
 
   return (
@@ -40,14 +53,6 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6">Вход в финансовый мониторинг</h1>
       <div className="mb-4 text-gray-600">Войдите через Telegram для доступа к вашему дашборду</div>
       <div id="telegram-login-widget" className="mb-8" />
-      <Script
-        src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="darlingxloginbot"
-        data-size="large"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write"
-        strategy="afterInteractive"
-      />
       <div className="text-xs text-gray-400 mt-8">Ваши данные защищены и используются только для входа</div>
     </div>
   );
