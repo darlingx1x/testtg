@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from 'react';
 
 // Расширяем глобальный интерфейс Window для onTelegramAuth
