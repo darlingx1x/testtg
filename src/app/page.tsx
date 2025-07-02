@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from 'react';
+import Script from 'next/script';
 
 interface TelegramAuthData {
   id: number | string;
@@ -39,14 +40,14 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6">Вход в финансовый мониторинг</h1>
       <div className="mb-4 text-gray-600">Войдите через Telegram для доступа к вашему дашборду</div>
       <div id="telegram-login-widget" className="mb-8" />
-      <script
-        async
+      <Script
         src="https://telegram.org/js/telegram-widget.js?22"
         data-telegram-login="darlingxloginbot"
         data-size="large"
         data-onauth="onTelegramAuth(user)"
         data-request-access="write"
-      ></script>
+        strategy="afterInteractive"
+      />
       <div className="text-xs text-gray-400 mt-8">Ваши данные защищены и используются только для входа</div>
     </div>
   );
