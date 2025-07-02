@@ -7,7 +7,7 @@ const GITHUB_DB_PATH = 'db.json';
 /**
  * Получить содержимое db.json из GitHub
  */
-export async function getDbFromGitHub(): Promise<any> {
+export async function getDbFromGitHub(): Promise<unknown> {
   const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_DB_PATH}`, {
     headers: {
       Authorization: `token ${GITHUB_TOKEN}`,
@@ -21,7 +21,7 @@ export async function getDbFromGitHub(): Promise<any> {
 /**
  * Сохранить db.json в GitHub (создаёт коммит)
  */
-export async function saveDbToGitHub(db: any, message = 'Update db.json'): Promise<void> {
+export async function saveDbToGitHub(db: object, message = 'Update db.json'): Promise<void> {
   // Получаем SHA текущего файла
   const metaRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_DB_PATH}`, {
     headers: {
@@ -30,7 +30,7 @@ export async function saveDbToGitHub(db: any, message = 'Update db.json'): Promi
     },
   });
   if (!metaRes.ok) throw new Error('Не удалось получить SHA db.json');
-  const meta = await metaRes.json();
+  const meta = (await metaRes.json()) as { sha: string };
   const sha = meta.sha;
 
   // Кодируем содержимое в base64

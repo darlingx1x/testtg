@@ -1,17 +1,26 @@
 "use client";
 import { useEffect } from 'react';
 
+interface TelegramAuthData {
+  id: number | string;
+  username: string;
+  first_name: string;
+  last_name?: string;
+  hash: string;
+  [key: string]: string | number | undefined;
+}
+
 // Расширяем глобальный интерфейс Window для onTelegramAuth
 declare global {
   interface Window {
-    onTelegramAuth: (user: any) => void;
+    onTelegramAuth: (user: TelegramAuthData) => void;
   }
 }
 
 export default function Home() {
   useEffect(() => {
     // Глобальная функция для Telegram Login Widget
-    window.onTelegramAuth = async function(user: any) {
+    window.onTelegramAuth = async function(user: TelegramAuthData) {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
