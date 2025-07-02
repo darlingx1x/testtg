@@ -64,7 +64,10 @@ async function saveDb(db: Database): Promise<void> {
 export async function getTransactions(): Promise<Transaction[]> {
   try {
     const data = await fs.readFile(DB_PATH, 'utf-8');
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    if (Array.isArray(parsed)) return parsed;
+    if (parsed && Array.isArray(parsed.transactions)) return parsed.transactions;
+    return [];
   } catch (e) {
     if ((e as { code?: string }).code === 'ENOENT') return [];
     throw e;
