@@ -1,6 +1,43 @@
-import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
+
+// Расширяем глобальный интерфейс Window для onTelegramAuth
+declare global {
+  interface Window {
+    onTelegramAuth: (user: any) => void;
+  }
+}
 
 export default function Home() {
-  redirect('/dashboard');
-  return null;
+  useEffect(() => {
+    // Глобальная функция для Telegram Login Widget
+    window.onTelegramAuth = async function(user: any) {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+      });
+      if (res.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        alert('Ошибка авторизации через Telegram');
+      }
+    };
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <h1 className="text-3xl font-bold mb-6">Вход в финансовый мониторинг</h1>
+      <div className="mb-4 text-gray-600">Войдите через Telegram для доступа к вашему дашборду</div>
+      <div id="telegram-login-widget" className="mb-8" />
+      <script
+        async
+        src="https://telegram.org/js/telegram-widget.js?22"
+        data-telegram-login="darlingxloginbot"
+        data-size="large"
+        data-onauth="onTelegramAuth(user)"
+        data-request-access="write"
+      ></script>
+      <div className="text-xs text-gray-400 mt-8">Ваши данные защищены и используются только для входа</div>
+    </div>
+  );
 }
