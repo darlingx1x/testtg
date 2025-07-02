@@ -3,16 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
 // Пример структуры транзакции
-interface Transaction {
-  id: string;
-  card: string;
-  amount: number;
-  currency: string;
-  type: 'income' | 'expense';
-  timestamp: string;
-  merchant: string;
-  raw: string;
-}
+// Удаляю неиспользуемый импорт Transaction
 
 // Импортируем функции для работы с JSON-базой (создадим позже)
 import { addTransaction } from '@/lib/db';
