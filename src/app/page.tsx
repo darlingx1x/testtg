@@ -28,6 +28,7 @@ export default function Home() {
         body: JSON.stringify(user)
       });
       if (res.ok) {
+        localStorage.setItem('tgUser', JSON.stringify(user)); // сохраняем пользователя
         window.location.href = '/dashboard';
       } else {
         alert('Ошибка авторизации через Telegram');
@@ -55,6 +56,10 @@ export default function Home() {
         <h1 className="text-4xl font-display font-bold text-premium-accent mb-2">Вход в FinMonitor</h1>
         <div className="mb-2 text-premium-accent2 text-lg">Войдите через Telegram для доступа к вашему дашборду</div>
         <div id="telegram-login-widget" className="mb-4" />
+        <div className="flex gap-4 mt-2">
+          <a href="/profile" className="text-premium-accent2 underline">Профиль</a>
+          <a href="/admin?secret=1" className="text-premium-accent2 underline">Админка</a>
+        </div>
         <div className="text-xs text-premium-accent2 mt-2">Ваши данные защищены и используются только для входа</div>
       </Card>
       {/* Кнопка для теста (можно убрать) */}
