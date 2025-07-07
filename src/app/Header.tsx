@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 /**
  * Премиальный Header с кастомным стилем, логотипом и навигацией.
@@ -29,6 +30,7 @@ export default function Header() {
         {user?.username === 'senpaisenpai' && (
           <a href="/admin?secret=1" className="text-white hover:text-premium-accent2 transition-colors">Админка</a>
         )}
+        <ThemeToggle />
       </nav>
     </header>
   );
