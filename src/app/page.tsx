@@ -1,5 +1,7 @@
 "use client";
 import { useEffect } from 'react';
+import Card from './Card';
+import Button from './Button';
 
 interface TelegramAuthData {
   id: number | string;
@@ -49,11 +51,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6">Вход в финансовый мониторинг</h1>
-      <div className="mb-4 text-gray-600">Войдите через Telegram для доступа к вашему дашборду</div>
-      <div id="telegram-login-widget" className="mb-8" />
-      <div className="text-xs text-gray-400 mt-8">Ваши данные защищены и используются только для входа</div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-premium">
+      <Card className="flex flex-col items-center gap-6 max-w-md w-full">
+        <h1 className="text-4xl font-display font-bold text-premium-accent mb-2">Вход в FinMonitor</h1>
+        <div className="mb-2 text-premium-accent2 text-lg">Войдите через Telegram для доступа к вашему дашборду</div>
+        <div id="telegram-login-widget" className="mb-4" />
+        <div className="text-xs text-premium-accent2 mt-2">Ваши данные защищены и используются только для входа</div>
+      </Card>
+      {/* Кнопка для теста (можно убрать) */}
+      {/* <Button className="mt-8">Премиальная кнопка</Button> */}
     </div>
   );
 }
