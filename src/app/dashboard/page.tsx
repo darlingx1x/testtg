@@ -15,6 +15,8 @@ import {
 import { Transaction } from '@/lib/db';
 import Card from '../Card';
 import Loader from '../Loader';
+import { saveAs } from 'file-saver';
+import Button from '../Button';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -64,6 +66,30 @@ export default function DashboardPage() {
   const cards = Array.from(new Set(transactions.map(t => t.card)));
   const dates = Array.from(new Set(transactions.map(t => t.timestamp.split(' ')[0])));
 
+  // Экспорт в CSV
+  function exportCSV() {
+    const header = 'Дата,Карта,Тип,Сумма,Магазин\n';
+    const rows = filtered.map(t => [t.timestamp, t.card, t.type === 'income' ? 'Доход' : 'Расход', `${t.amount} ${t.currency}`, t.merchant].join(','));
+    const csv = header + rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'transactions.csv');
+  }
+  // Экспорт в PDF (простой вариант)
+  function exportPDF() {
+    const win = window.open('', '', 'width=800,height=600');
+    if (!win) return;
+    win.document.write('<html><head><title>Транзакции</title></head><body>');
+    win.document.write('<h1>История транзакций</h1>');
+    win.document.write('<table border="1" style="width:100%;border-collapse:collapse;">');
+    win.document.write('<tr><th>Дата</th><th>Карта</th><th>Тип</th><th>Сумма</th><th>Магазин</th></tr>');
+    filtered.forEach(t => {
+      win!.document.write(`<tr><td>${t.timestamp}</td><td>${t.card}</td><td>${t.type === 'income' ? 'Доход' : 'Расход'}</td><td>${t.amount} ${t.currency}</td><td>${t.merchant}</td></tr>`);
+    });
+    win.document.write('</table></body></html>');
+    win.document.close();
+    win.print();
+  }
+
   if (!transactions.length) {
     return <Loader />;
   }
@@ -96,6 +122,10 @@ export default function DashboardPage() {
         </Card>
       </div>
       {/* История транзакций */}
+      <div className="flex gap-4 mb-4">
+        <Button onClick={exportCSV}>Экспорт CSV</Button>
+        <Button onClick={exportPDF}>Экспорт PDF</Button>
+      </div>
       <h2 className="text-2xl font-display font-semibold mb-4 text-premium-accent">История транзакций</h2>
       <Card className="overflow-x-auto p-0">
         <table className="min-w-full text-sm">
