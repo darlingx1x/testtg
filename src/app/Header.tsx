@@ -6,8 +6,17 @@ import ThemeToggle from './ThemeToggle';
  * Премиальный Header с кастомным стилем, логотипом и навигацией.
  * Использует кастомные цвета, шрифты и плавные эффекты.
  */
+interface TelegramUser {
+  id: number | string;
+  username: string;
+  first_name: string;
+  last_name?: string;
+  hash: string;
+  [key: string]: string | number | undefined;
+}
+
 export default function Header() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

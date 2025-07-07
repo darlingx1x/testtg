@@ -5,13 +5,23 @@ import Button from '../Button';
 import { useRouter } from 'next/navigation';
 import Loader from '../Loader';
 import Toast from '../Toast';
+import Image from 'next/image';
 
 /**
  * Страница профиля пользователя. Данные берутся из Telegram после авторизации.
  * Если пользователь не авторизован — редирект на главную.
  */
+interface TelegramUser {
+  id: number | string;
+  username: string;
+  first_name: string;
+  last_name?: string;
+  hash: string;
+  [key: string]: string | number | undefined;
+}
+
 export default function ProfilePage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<TelegramUser | null>(null);
   const router = useRouter();
   const [toast, setToast] = useState<string | null>(null);
 
@@ -32,7 +42,7 @@ export default function ProfilePage() {
       <Card className="flex flex-col items-center gap-6 max-w-md w-full">
         <h1 className="text-3xl font-display font-bold text-premium-accent mb-2">Профиль</h1>
         <div className="flex flex-col items-center gap-2">
-          <img src={`https://t.me/i/userpic/320/${user.username}.jpg`} alt="avatar" className="w-24 h-24 rounded-full border-4 border-premium-accent2 shadow-card" />
+          <Image src={`https://t.me/i/userpic/320/${user.username}.jpg`} alt="avatar" width={96} height={96} className="w-24 h-24 rounded-full border-4 border-premium-accent2 shadow-card" />
           <div className="text-lg text-white font-bold">{user.first_name} {user.last_name}</div>
           <div className="text-premium-accent2">@{user.username}</div>
           <div className="text-xs text-premium-accent2">ID: {user.id}</div>
