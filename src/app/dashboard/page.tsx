@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { Transaction } from '@/lib/db';
 import Card from '../Card';
+import Loader from '../Loader';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -62,6 +63,10 @@ export default function DashboardPage() {
 
   const cards = Array.from(new Set(transactions.map(t => t.card)));
   const dates = Array.from(new Set(transactions.map(t => t.timestamp.split(' ')[0])));
+
+  if (!transactions.length) {
+    return <Loader />;
+  }
 
   return (
     <div className="p-4 max-w-5xl mx-auto">

@@ -1,6 +1,7 @@
 "use client";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Card from './Card';
+import Toast from './Toast';
 
 interface TelegramAuthData {
   id: number | string;
@@ -19,6 +20,8 @@ declare global {
 }
 
 export default function Home() {
+  const [toast, setToast] = useState<string | null>(null);
+
   useEffect(() => {
     // Глобальная функция для Telegram Login Widget
     window.onTelegramAuth = async function(user: TelegramAuthData) {
@@ -31,7 +34,7 @@ export default function Home() {
         localStorage.setItem('tgUser', JSON.stringify(user)); // сохраняем пользователя
         window.location.href = '/dashboard';
       } else {
-        alert('Ошибка авторизации через Telegram');
+        setToast('Ошибка авторизации через Telegram');
       }
     };
     // Удаляем старый виджет, если он был
@@ -62,6 +65,7 @@ export default function Home() {
         </div>
         <div className="text-xs text-premium-accent2 mt-2">Ваши данные защищены и используются только для входа</div>
       </Card>
+      {toast && <Toast message={toast} type="error" onClose={() => setToast(null)} />}
       {/* Кнопка для теста (можно убрать) */}
       {/* <Button className="mt-8">Премиальная кнопка</Button> */}
     </div>

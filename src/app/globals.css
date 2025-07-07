@@ -70,3 +70,11 @@ button:active {
 .animate-fade-in {
   animation: fade-in 0.7s ease;
 }
+
+/* Анимация вращения (spin) для Loader/Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
