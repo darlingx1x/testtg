@@ -9,9 +9,11 @@ export interface Transaction {
   card: string;
   amount: number;
   currency: string;
-  type: 'income' | 'expense';
+  type: 'income' | 'expense' | 'change';
   timestamp: string;
   merchant: string;
+  category?: string;
+  balanceAfter?: number | null;
   raw: string;
 }
 
