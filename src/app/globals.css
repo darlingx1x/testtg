@@ -1,0 +1,37 @@
+/* Подключение премиальных шрифтов */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #18181B;
+  --foreground: #FFD700;
+  --font-sans: 'Inter', 'Montserrat', Arial, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: #fff;
+  font-family: var(--font-sans);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Премиальные плавные переходы для всех элементов */
+* {
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* Комментарии: здесь можно добавить кастомные глобальные стили для премиального эффекта */
