@@ -1,7 +1,7 @@
 import { getTransactions } from '@/lib/db';
 import Card from '../Card';
 
-export default async function AdminPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+export default async function AdminPage() {
   const transactions = await getTransactions();
   return (
     <div className="p-4 max-w-5xl mx-auto">
