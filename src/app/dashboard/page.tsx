@@ -14,7 +14,6 @@ import {
 } from 'chart.js';
 import { Transaction } from '@/lib/db';
 import Card from '../Card';
-import Button from '../Button';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 

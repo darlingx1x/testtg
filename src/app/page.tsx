@@ -1,7 +1,6 @@
 "use client";
 import { useEffect } from 'react';
 import Card from './Card';
-import Button from './Button';
 
 interface TelegramAuthData {
   id: number | string;
