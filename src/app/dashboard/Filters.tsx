@@ -16,17 +16,19 @@ export default function Filters({ cards, dates, onChange }: {
   }
 
   return (
-    <div className="mb-4 flex flex-wrap gap-2 items-center">
-      <label>
-        <span className="mr-1">Карта:</span>
-        <select className="border rounded px-2 py-1" value={card} onChange={e => handleChange(e.target.value, date)}>
+    <div className="mb-4 flex flex-wrap gap-4 items-center">
+      {/* Премиальный фильтр по карте */}
+      <label className="flex items-center gap-2 text-premium-accent2 font-semibold">
+        <span>Карта:</span>
+        <select className="border border-premium-border bg-premium-light text-white rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-premium-accent2 transition-all" value={card} onChange={e => handleChange(e.target.value, date)}>
           <option value="">Все</option>
           {cards.map(card => <option key={card} value={card}>{card}</option>)}
         </select>
       </label>
-      <label>
-        <span className="mr-1">Дата:</span>
-        <select className="border rounded px-2 py-1" value={date} onChange={e => handleChange(card, e.target.value)}>
+      {/* Премиальный фильтр по дате */}
+      <label className="flex items-center gap-2 text-premium-accent2 font-semibold">
+        <span>Дата:</span>
+        <select className="border border-premium-border bg-premium-light text-white rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-premium-accent2 transition-all" value={date} onChange={e => handleChange(card, e.target.value)}>
           <option value="">Все</option>
           {dates.map(date => <option key={date} value={date}>{date}</option>)}
         </select>

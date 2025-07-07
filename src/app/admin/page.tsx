@@ -1,4 +1,5 @@
 import { getTransactions } from '@/lib/db';
+import Card from '../Card';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
@@ -9,9 +10,12 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   }
   const transactions = await getTransactions();
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Админка: все транзакции</h1>
-      <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto max-h-[70vh]">{JSON.stringify(transactions, null, 2)}</pre>
+    <div className="p-4 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-display font-bold mb-8 text-premium-accent">Админка: все транзакции</h1>
+      {/* Премиальная карточка с JSON-историей */}
+      <Card className="overflow-x-auto text-xs bg-premium-surface text-white max-h-[70vh]">
+        <pre>{JSON.stringify(transactions, null, 2)}</pre>
+      </Card>
     </div>
   );
 } 
