@@ -12,7 +12,30 @@ const categories: { key: string; value: string }[] = [
   // ... можно расширять
 ];
 
-export function parseSmsToTransaction(sms: string): Omit<Transaction, 'id'> | null {
+export function parseSmsToTransaction(sms: string): Omit<Transaction, 'id'> | Omit<Transaction, 'id'>[] | null {
+  // Универсальный устойчивый парсинг баланса по всем картам
+  // Ищем все блоки вида: '🔹 ...*XXXX ...\n...💵 ... UZS' (любые пробелы, переносы, табы)
+  const cleaned = sms.replace(/\r/g, '').replace(/[\t ]+/g, ' ').replace(/ +\n/g, '\n').replace(/\n{2,}/g, '\n');
+  const balanceBlockRegex = /🔹\s*([\wА-ЯЁа-яё'.,\- ]*\*\d{4})\s*\n?\s*💵\s*([\d'., ]+)\s*UZS/igm;
+  const txs: Omit<Transaction, 'id'>[] = [];
+  let match;
+  while ((match = balanceBlockRegex.exec(cleaned)) !== null) {
+    const card = match[1].replace(/\s+/g, ' ').trim();
+    const balanceAfter = parseFloat(match[2].replace(/[' .]/g, '').replace(',', '.'));
+    txs.push({
+      card,
+      amount: 0,
+      currency: 'UZS',
+      type: 'change',
+      timestamp: new Date().toISOString(),
+      merchant: '',
+      category: '',
+      balanceAfter,
+      raw: sms,
+    });
+  }
+  if (txs.length) return txs;
+
   // Универсальный парсер для всех форматов HUMOcardbot
   // 1. Оплата/Операция (расход)
   // 2. Пополнение (доход)
