@@ -27,11 +27,14 @@ function sum(transactions: Transaction[], type: 'income' | 'expense') {
 export default function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filters, setFilters] = useState<{ card: string; date: string }>({ card: '', date: '' });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/transactions')
       .then(res => res.json())
-      .then(data => setTransactions(data));
+      .then(data => setTransactions(data))
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = transactions.filter(t =>
@@ -90,7 +93,7 @@ export default function DashboardPage() {
     win.print();
   }
 
-  if (!transactions.length) {
+  if (loading) {
     return <Loader />;
   }
 

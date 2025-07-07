@@ -9,6 +9,9 @@ interface TelegramAuthData {
   first_name: string;
   last_name?: string;
   hash: string;
+  photo_url?: string;
+  bio?: string;
+  phone_number?: string;
   [key: string]: string | number | undefined;
 }
 
@@ -25,13 +28,18 @@ export default function Home() {
   useEffect(() => {
     // Глобальная функция для Telegram Login Widget
     window.onTelegramAuth = async function(user: TelegramAuthData) {
+      // Если Telegram возвращает дополнительные поля, сохраняем их
+      const fullUser = { ...user };
+      if (user.photo_url) fullUser.photo_url = user.photo_url;
+      if (user.bio) fullUser.bio = user.bio;
+      if (user.phone_number) fullUser.phone_number = user.phone_number;
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
       });
       if (res.ok) {
-        localStorage.setItem('tgUser', JSON.stringify(user)); // сохраняем пользователя
+        localStorage.setItem('tgUser', JSON.stringify(fullUser)); // сохраняем расширенного пользователя
         window.location.href = '/dashboard';
       } else {
         setToast('Ошибка авторизации через Telegram');

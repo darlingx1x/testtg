@@ -17,6 +17,9 @@ interface TelegramUser {
   first_name: string;
   last_name?: string;
   hash: string;
+  photo_url?: string;
+  bio?: string;
+  phone_number?: string;
   [key: string]: string | number | undefined;
 }
 
@@ -42,10 +45,12 @@ export default function ProfilePage() {
       <Card className="flex flex-col items-center gap-6 max-w-md w-full">
         <h1 className="text-3xl font-display font-bold text-premium-accent mb-2">Профиль</h1>
         <div className="flex flex-col items-center gap-2">
-          <Image src={`https://t.me/i/userpic/320/${user.username}.jpg`} alt="avatar" width={96} height={96} className="w-24 h-24 rounded-full border-4 border-premium-accent2 shadow-card" />
+          <Image src={user.photo_url || `https://t.me/i/userpic/320/${user.username}.jpg`} alt="avatar" width={96} height={96} className="w-24 h-24 rounded-full border-4 border-premium-accent2 shadow-card" />
           <div className="text-lg text-white font-bold">{user.first_name} {user.last_name}</div>
           <div className="text-premium-accent2">@{user.username}</div>
           <div className="text-xs text-premium-accent2">ID: {user.id}</div>
+          {user.bio && <div className="text-premium-accent2 text-center mt-2">{user.bio}</div>}
+          {user.phone_number && <div className="text-premium-accent2 text-center mt-1">Телефон: {user.phone_number}</div>}
         </div>
         <Button className="mt-4" onClick={() => {
           localStorage.removeItem('tgUser');
